@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "zspratt21/jb-dev-assessment",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Implementation of the JB Blog API Assessment",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

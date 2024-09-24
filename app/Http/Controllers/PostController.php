@@ -80,6 +80,6 @@ class PostController extends Controller
         $this->checkPostUserId($post->user_id);
         $post->delete();
 
-        return response()->json(['message' => "Post with $id deleted"]);
+        return response()->json(['message' => "Post with id $id deleted"]);
     }
 }

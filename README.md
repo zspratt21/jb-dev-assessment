@@ -1,66 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# JuiceBox API Developer Assessment
+This is my implementation of a simple Blog API.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Requirements
+- PHP 8.3
+- Composer
+- NodeJS(optional: for running the scripts in package.json)
+- Docker & Docker Compose
 
-## About Laravel
+## Installation and Setup
+1. Begin by cloning this repository with git or an IDE of your choice
+2. Run `composer install`
+3. Run `cp .env.example .env`
+4. Set the SENTRY_DSN variable to your Sentry DSN's address if you want to use sentry.
+5. Modify any other variables in the .env file as needed.
+6. Run `php artisan key:generate`
+7. if using docker(recommended), run `docker-compose up -d` to start the provided development environment.
+8. Run `php artisan migrate` from within the web container or run the utility script provided in package.json'.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Usage
+When using docker and the provided example environment, you can access the application on http://localhost:800/
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Included in the project is a set of utility scripts in package.json that can either be run from your IDE if you have set up a Node.js interpreter or by running `npm <script-name>` from your terminal.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Postman Collection
+A postman collection has been provided in the root of the project called endpoints.postman_collection.json. You can import this collection into postman to test the endpoints. Once imported, create a new environment and environment variable called app_url with the value of the url you are accessing, then after sending the login request, create another environment variable called bearer_token and copy the provided token from the login response into it.
 
-## Learning Laravel
+### Authentication
+The API uses bearer tokens for authentication which are issued by the laravel sanctum middleware. To access routes restricted to users only, you will need to login and copy the bearer token provided in the response. if using the provided postman endpoints, you can set the bearer token in the preconfigured environment variable.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Endpoints
+All endpoints mentioned in the brief can be utilized via their respective url and request type in addition to the following:
+1. GET / - simple home page which shows the installed version of laravel
+2. GET /api/users - view all users
+3. GET /api/users/{id}/comments - view all comments by a user
+4. GET /api/posts/{id}/comments - view all comments on a post
+5. POST /api/posts/{id}/comments - create a comment on a post
+6. PATCH /api/comments/{id} - update a comment you made
+7. DELETE /api/comments/{id} - delete a comment you made
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Running the queue worker
+For ease of use, a script has been provided in package.json to run the queue worker within the provided docker environment called docker-web-start-que. If you are not using docker you can start the queue worker by running `php artisan queue:work` in your terminal.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Sending the test email
+After starting the queue worker you can either run the utility script docker-web-send-test-email in package.json or run `php artisan send:test-email` in your terminal to send a test email.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Running the tests
+A utility script is provided to run the tests from within the docker environment called test. If you are not using docker you can run the tests by running `php artisan test` in your terminal.

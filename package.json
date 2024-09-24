@@ -1,5 +1,10 @@
 {
+    "name": "jb-dev-assessment",
+    "description": "These scripts are helpful for executing common tasks associated with the API in the context of the provided docker environment.",
     "scripts": {
+        "generate-app-key": "php artisan key:generate",
+        "docker-start": "docker-compose up -d",
+        "docker-stop": "docker-compose down",
         "docker-db-import": "docker-compose exec db sh -c 'mysql -u root -p\"$MYSQL_ROOT_PASSWORD\" \"$MYSQL_DATABASE\" < /dumps/dump.sql'",
         "docker-db-dump": "docker-compose exec db sh -c 'mysqldump -u root -p\"$MYSQL_ROOT_PASSWORD\" \"$MYSQL_DATABASE\" > /dumps/dump.sql'",
         "docker-web-migrate": "docker-compose exec web php artisan migrate",
@@ -9,6 +14,7 @@
         "docker-web-restart-que": "docker-compose exec web php artisan queue:restart",
         "docker-web-send-test-email": "docker-compose exec web php artisan user:send-test-welcome-email",
         "docker-web-send-sentry-test": "docker-compose exec web php artisan sentry:test",
-        "pint": "./vendor/bin/pint"
+        "pint": "./vendor/bin/pint",
+        "test": "docker-compose exec web php artisan test"
     }
 }
