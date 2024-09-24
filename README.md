@@ -18,7 +18,7 @@ This is my implementation of a simple Blog API.
 3. Run `cp .env.example .env`
 4. Set the SENTRY_DSN variable to your Sentry DSN's address if you want to use sentry.
 5. Modify any other variables in the .env file as needed.
-6. Run `php artisan key:generate`
+6. Run `php artisan key:generate` or use the generate-app-key utility script to setup the application key.
 7. if using docker(recommended), run `docker-compose up -d` to start the provided development environment.
 8. Run `php artisan migrate` from within the web container or run the utility script provided in package.json'.
 
@@ -44,10 +44,10 @@ All endpoints mentioned in the brief can be utilized via their respective url an
 7. DELETE /api/comments/{id} - delete a comment you made
 
 ### Running the queue worker
-For ease of use, a script has been provided in package.json to run the queue worker within the provided docker environment called docker-web-start-que. If you are not using docker you can start the queue worker by running `php artisan queue:work` in your terminal.
+For ease of use, a script has been provided in package.json to run the queue worker within the provided docker environment called docker-web-start-queue. If you are not using docker you can start the queue worker by running `php artisan queue:work` in your terminal.
 
 ### Sending the test email
-After starting the queue worker you can either run the utility script docker-web-send-test-email in package.json or run `php artisan send:test-email` in your terminal to send a test email.
+After starting the queue worker you can either run the utility script docker-web-send-test-email in package.json or run `php artisan user:send-test-welcome-email` in your terminal to send a test email.
 
 ### Running the tests
 A utility script is provided to run the tests from within the docker environment called test. If you are not using docker you can run the tests by running `php artisan test` in your terminal.
