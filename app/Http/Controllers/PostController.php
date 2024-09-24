@@ -30,25 +30,29 @@ class PostController extends Controller
     public function checkPostUserId($id)
     {
         if ($id !== auth()->id()) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException;
         }
-
-        return true;
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
-        return Post::all();
+        $posts = Post::paginate(10);
+
+        return response()->json([
+            'data' => $posts->items(),
+            'current_page' => $posts->currentPage(),
+            'total_pages' => $posts->lastPage(),
+        ]);
     }
 
-    public function store(PostCreateRequest $request)
+    public function store(PostCreateRequest $request): JsonResponse
     {
         $existing_post = Post::where('title', $request->title)->first();
         if ($existing_post) {
             return response()->json(['error' => "Post with title `$request->title` already exists"], 400);
         }
 
-        return $request->user()->posts()->create($request->validated());
+        return response()->json($request->user()->posts()->create($request->validated()), 201);
     }
 
     /**
@@ -79,7 +83,7 @@ class PostController extends Controller
      * @throws UnauthorizedException
      * @throws ModelNotFoundException
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $this->checkPostExists($id);
         $post = Post::find($id);
