@@ -23,7 +23,13 @@ class UserController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json(User::all());
+        $users = User::paginate(10);
+
+        return response()->json([
+            'data' => $users->items(),
+            'current_page' => $users->currentPage(),
+            'total_pages' => $users->lastPage(),
+        ]);
     }
 
     /**
