@@ -13,7 +13,7 @@ class UserTest extends TestCase
     public function test_user_can_be_retireved(): void
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('/api/users/' . $user->id);
+        $response = $this->actingAs($user)->get('/api/users/'.$user->id);
         $response->assertStatus(200);
         $response->assertJson(['id' => $user->id, 'name' => $user->name, 'email' => $user->email]);
     }
@@ -21,7 +21,7 @@ class UserTest extends TestCase
     public function test_user_cannot_be_retrieved_by_guests(): void
     {
         $user = User::factory()->create();
-        $response = $this->get('/api/users/' . $user->id);
+        $response = $this->get('/api/users/'.$user->id);
         $response->assertStatus(401);
     }
 

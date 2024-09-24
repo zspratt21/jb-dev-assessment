@@ -52,5 +52,4 @@ class AuthenticationTest extends TestCase
         $user->refresh();
         $this->assertCount(0, $user->tokens);
     }
-
 }
