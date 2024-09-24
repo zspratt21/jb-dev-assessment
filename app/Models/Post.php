@@ -15,4 +15,11 @@ class Post extends Model
         'title',
         'content',
     ];
+
+    public function delete(): ?bool
+    {
+        $this->comments()->delete();
+
+        return parent::delete();
+    }
 }
