@@ -4,22 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ModelNotFoundException;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException as EloquentModelNotFoundException;
+use App\Traits\ChecksUsersExist;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    /**
-     * @throws ModelNotFoundException
-     */
-    public function checkUserExists($id)
-    {
-        try {
-            User::findOrFail($id);
-        } catch (EloquentModelNotFoundException $e) {
-            throw new ModelNotFoundException("User with id $id not found");
-        }
-    }
+    use ChecksUsersExist;
 
     public function index(): JsonResponse
     {

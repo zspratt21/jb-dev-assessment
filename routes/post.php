@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -8,4 +9,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts', [PostController::class, 'store']);
     Route::patch('/posts/{id}', [PostController::class, 'update']);
     Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+    Route::get('/posts/{id}/comments', [CommentController::class, 'indexByPost']);
+    Route::post('/posts/{id}/comments', [CommentController::class, 'store']);
 });

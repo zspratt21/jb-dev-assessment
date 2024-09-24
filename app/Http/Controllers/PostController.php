@@ -7,22 +7,12 @@ use App\Exceptions\UnauthorizedException;
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Database\Eloquent\ModelNotFoundException as EloquentModelNotFoundException;
+use App\Traits\ChecksPostsExist;
 use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-    /**
-     * @throws ModelNotFoundException
-     */
-    public function checkPostExists($id)
-    {
-        try {
-            Post::findOrFail($id);
-        } catch (EloquentModelNotFoundException $e) {
-            throw new ModelNotFoundException("Post with id $id not found");
-        }
-    }
+    use ChecksPostsExist;
 
     /**
      * @throws UnauthorizedException
@@ -76,7 +66,7 @@ class PostController extends Controller
         $this->checkPostUserId($post->user_id);
         $post->update($request->validated());
 
-        return response()->json(Post::find($id));
+        return response()->json($post);
     }
 
     /**
