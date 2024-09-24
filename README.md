@@ -7,6 +7,11 @@ This is my implementation of a simple Blog API.
 - NodeJS(optional: for running the scripts in package.json)
 - Docker & Docker Compose
 
+## Features
+- Redis for caching and queueing jobs
+- Mailpit for catching emails
+- Sentry integration
+
 ## Installation and Setup
 1. Begin by cloning this repository with git or an IDE of your choice
 2. Run `composer install`
