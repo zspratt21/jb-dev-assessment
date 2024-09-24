@@ -4,9 +4,11 @@
         "docker-db-dump": "docker-compose exec db sh -c 'mysqldump -u root -p\"$MYSQL_ROOT_PASSWORD\" \"$MYSQL_DATABASE\" > /dumps/dump.sql'",
         "docker-web-migrate": "docker-compose exec web php artisan migrate",
         "docker-web-clear-config": "docker-compose exec web php artisan config:clear",
+        "docker-web-cache-config": "docker-compose exec web php artisan config:cache",
         "docker-web-start-que": "docker-compose exec web php artisan queue:work",
         "docker-web-restart-que": "docker-compose exec web php artisan queue:restart",
         "docker-web-send-test-email": "docker-compose exec web php artisan user:send-test-welcome-email",
+        "docker-web-send-sentry-test": "docker-compose exec web php artisan sentry:test",
         "pint": "./vendor/bin/pint"
     }
 }
