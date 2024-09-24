@@ -11,7 +11,7 @@ class PostTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_post_can_be_created()
+    public function test_post_can_be_created(): void
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post('/api/posts', ['title' => 'the first post', 'content' => 'testing testing 123']);
@@ -19,13 +19,13 @@ class PostTest extends TestCase
         $this->assertNotNull(Post::find($response->json('id')));
     }
 
-    public function test_post_cannot_be_created_by_guests()
+    public function test_post_cannot_be_created_by_guests(): void
     {
         $response = $this->post('/api/posts', ['title' => 'the first post', 'content' => 'testing testing 123']);
         $response->assertStatus(401);
     }
 
-    public function test_post_cannot_be_created_with_existing_title()
+    public function test_post_cannot_be_created_with_existing_title(): void
     {
         $user = User::factory()->create();
         Post::factory()->create(['title' => 'the first post', 'user_id' => $user->id]);
@@ -34,7 +34,7 @@ class PostTest extends TestCase
         $response->assertJson(['error' => 'Post with title `the first post` already exists']);
     }
 
-    public function test_post_can_be_retrieved()
+    public function test_post_can_be_retrieved(): void
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['title' => 'the first post', 'user_id' => $user->id]);
@@ -43,7 +43,7 @@ class PostTest extends TestCase
         $response->assertJson(['id' => $post->id, 'title' => 'the first post', 'content' => $post->content]);
     }
 
-    public function test_post_cannot_be_retrieved_by_guests()
+    public function test_post_cannot_be_retrieved_by_guests(): void
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['title' => 'the first post', 'user_id' => $user->id]);
@@ -51,7 +51,7 @@ class PostTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_posts_can_be_listed()
+    public function test_posts_can_be_listed(): void
     {
         $user = User::factory()->create();
         $post1 = Post::factory()->create(['title' => 'the first post', 'user_id' => $user->id]);
@@ -68,7 +68,7 @@ class PostTest extends TestCase
         ]);
     }
 
-    public function test_post_can_be_updated()
+    public function test_post_can_be_updated(): void
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['title' => 'the first post', 'user_id' => $user->id]);
@@ -79,7 +79,7 @@ class PostTest extends TestCase
         $this->assertEquals('the first post', Post::find($post->id)->title);
     }
 
-    public function test_post_cannot_be_updated_by_guests()
+    public function test_post_cannot_be_updated_by_guests(): void
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['user_id' => $user->id]);
@@ -87,7 +87,7 @@ class PostTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_post_cannot_be_updated_by_other_users()
+    public function test_post_cannot_be_updated_by_other_users(): void
     {
         $post_user = User::factory()->create();
         $user = User::factory()->create();
@@ -97,7 +97,7 @@ class PostTest extends TestCase
         $response->assertJson(['message' => 'Unauthorized']);
     }
 
-    public function test_post_can_be_deleted()
+    public function test_post_can_be_deleted(): void
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['user_id' => $user->id]);
@@ -107,7 +107,7 @@ class PostTest extends TestCase
         $this->assertNull(Post::find($post->id));
     }
 
-    public function test_post_cannot_be_deleted_by_guests()
+    public function test_post_cannot_be_deleted_by_guests(): void
     {
         $user = User::factory()->create();
         $post = Post::factory()->create(['user_id' => $user->id]);
@@ -115,7 +115,7 @@ class PostTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_post_cannot_be_deleted_by_other_users()
+    public function test_post_cannot_be_deleted_by_other_users(): void
     {
         $post_user = User::factory()->create();
         $user = User::factory()->create();

@@ -4,68 +4,53 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\File;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Override the APP_URL environment variable
-        config(['app.url' => 'http://web:80']);
-    }
-
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->post('/api/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
 
-        //        $this->logResponseToFile($response);
-        dump('Full URL: '.$this->app['request']->fullUrl());
-
-        $this->assertAuthenticated();
-        $response->assertNoContent();
-    }
-
-    private function logResponseToFile(TestResponse $response): void
-    {
-        $logPath = storage_path('logs/test_response.html');
-        File::put($logPath, $response->getContent());
+        $response->assertJson([
+            'access_token' => true,
+            'token_type' => 'Bearer',
+        ]);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
-        $this->post('/login', [
+        $response = $this->post('/api/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
 
-        $this->assertGuest();
+        $response->assertJsonMissing([
+            'access_token',
+            'token_type' => 'Bearer',
+        ]);
     }
 
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
+        $user->createToken('auth_token')->plainTextToken;
+        $this->assertCount(1, $user->tokens);
 
-        $response = $this->actingAs($user)->post('/logout');
-
-        $this->assertGuest();
-
-        dump(config('app.url'));
-
-        //        $response->dump();
-
+        $response = $this->actingAs($user)->post('/api/logout');
         $response->assertNoContent();
+
+        $user->refresh();
+        $this->assertCount(0, $user->tokens);
     }
+
 }

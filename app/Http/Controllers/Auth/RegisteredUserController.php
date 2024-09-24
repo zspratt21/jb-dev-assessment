@@ -36,6 +36,6 @@ class RegisteredUserController extends Controller
         return response()->json([
             'user' => $user,
             'status' => 'User created',
-        ]);
+        ], 201);
     }
 }
