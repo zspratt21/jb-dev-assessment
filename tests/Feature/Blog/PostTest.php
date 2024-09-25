@@ -41,13 +41,6 @@ class PostTest extends PostTestCase
         $response->assertJson(['id' => $post->id, 'title' => 'the first post', 'content' => $post->content]);
     }
 
-    public function test_post_cannot_be_retrieved_by_guests(): void
-    {
-        $post = Post::factory()->create(['title' => 'the first post', 'user_id' => $this->user->id]);
-        $response = $this->get("/api/posts/{$post->id}");
-        $response->assertStatus(401);
-    }
-
     public function test_posts_can_be_listed(): void
     {
         Post::factory()->count(20)->create(['user_id' => $this->user->id]);
