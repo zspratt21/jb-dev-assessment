@@ -98,7 +98,7 @@ class PostTest extends PostTestCase
         $this->assertCount(1, Comment::all());
         $response = $this->actingAs($this->user)->delete("/api/posts/{$post->id}");
         $response->assertStatus(200);
-        $response->assertJson(['message' => "Post with $post->id deleted"]);
+        $response->assertJson(['message' => "Post with id $post->id deleted"]);
         $this->assertNull(Post::find($post->id));
         $this->assertCount(0, Comment::all());
     }
