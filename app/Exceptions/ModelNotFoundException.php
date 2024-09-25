@@ -2,10 +2,9 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Http\JsonResponse;
 
-class ModelNotFoundException extends Exception
+class ModelNotFoundException extends ApiExpectedException
 {
     public function render($request): JsonResponse
     {

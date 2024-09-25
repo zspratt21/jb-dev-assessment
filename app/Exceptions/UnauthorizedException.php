@@ -2,10 +2,9 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Http\JsonResponse;
 
-class UnauthorizedException extends Exception
+class UnauthorizedException extends ApiExpectedException
 {
     public function render($request): JsonResponse
     {

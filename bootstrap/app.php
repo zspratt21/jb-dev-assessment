@@ -24,5 +24,6 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->dontReport(App\Exceptions\ApiExpectedException::class);
         Integration::handles($exceptions);
     })->create();
