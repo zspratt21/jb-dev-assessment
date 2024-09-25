@@ -33,6 +33,8 @@ A postman collection has been provided in the root of the project called endpoin
 ### Authentication
 The API uses bearer tokens for authentication which are issued by the laravel sanctum middleware. To access routes restricted to users only, you will need to login and copy the bearer token provided in the response. if using the provided postman endpoints, you can set the bearer token in the preconfigured environment variable.
 
+Guests can view posts and the home page but only authenticated users can create posts, read and create comments, and view user profiles.
+
 ### Endpoints
 All endpoints mentioned in the brief can be utilized via their respective url and request type in addition to the following:
 1. GET / - simple home page which shows the installed version of laravel
